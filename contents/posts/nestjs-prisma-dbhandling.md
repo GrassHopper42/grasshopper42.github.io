@@ -52,7 +52,7 @@ NestJS시작부터 글을 적을 생각이었지만 기억이 날아갈까봐 �
    여기서부터 당황스러웠다. 지금까지 프리즈마 클라이언트를 생성하면 `const prisma = new PrismaClient()`같은 방법을 썼는데 서비스를 `PrismaClient`에서 `extends`하고 이걸 `onModuleInit`에 `implement`를 한다._[extends? implement?](https://www.howdy-mj.me/typescript/extends-and-implements/)_ [공식문서](https://docs.nestjs.com/recipes/prisma)에 이유가 상세히 잘 나와있지만 간단하게 설명하자면 **Prisma**를 **DB**에 빠르게 연결하기 위해 `onModuleInit`을 사용한다. 선택사항이지만 사용하지 않을경우 **Prisma**는 첫 호출이 있기 전까지 **DB**에 연결하지 않는다. `enableShutdownHooks`는 [공식문서](https://docs.nestjs.com/recipes/prisma#issues-with-enableshutdownhooks)와 [이 포스트](https://progressivecoder.com/build-a-nestjs-prisma-rest-api/)를 보면 **Prisma**와 **NestJS**가 종료메서드에 상호간섭하기 때문에 서비스에서 함수를 생성하고 `main.ts`에서 호출해서 종료를 강제해주는 것 같다.(이부분은 완벽하게 이해를 못했다.)
 
    <details>
-   <summary>`main.ts`</summary>
+      <summary>main.ts</summary>
 
    ```typescript
    // ~/src/main.ts
@@ -145,31 +145,31 @@ const prisma = new PrismaClient({
 나오지도 않는 구글을 한참 뒤지다가, **Prisma**랑 **PrismaClient**라이브러리 소스를 한참뒤지다가 겨우 단서를 찾았다.
 `constructor`에 `super`로 선언해주면 되는 간단한 문제였다.
 
-<details>
-<summary>코드</summary>
-
-```typescript
-// ~/src/prisma/prisma.service.ts
-
-// import ...
-
-@Injectable()
-export class PrismaService extends PrismaClient implements onModuleInit {
-  constructor() {
-    super({
-      datasources: {
-        db: {
-          url: process.env.TEST_DATABASE_URL,
-        },
-      },
-    })
-  }
-}
-
-// async onModuleInit...
-```
-
-</details>
+> <details>
+> <summary>코드</summary>
+>
+> ```typescript
+> // ~/src/prisma/prisma.service.ts
+>
+> // import ...
+>
+> @Injectable()
+> export class PrismaService extends PrismaClient implements onModuleInit {
+>   constructor() {
+>     super({
+>       datasources: {
+>         db: {
+>           url: process.env.TEST_DATABASE_URL,
+>         },
+>       },
+>     })
+>   }
+> }
+>
+> // async onModuleInit...
+> ```
+>
+> </details>
 
 방법은 찾았는데 DB URL을 어떻게 입력할지를 놓고 또 한참 씨름했다.
 `.env`에 넣고 `NODE_ENV`에 따라 각각 다른 주소가 들어가도록 하는데 `@nestjs/config`를 쓰니 문제가 발생했다.

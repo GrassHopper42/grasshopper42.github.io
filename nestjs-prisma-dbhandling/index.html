@@ -189,7 +189,7 @@ NestJS시작부터 글을 적을 생각이었지만 기억이 날아갈까봐 �
 <span class="token punctuation">}</span></code></pre></div>
 <p>여기서부터 당황스러웠다. 지금까지 프리즈마 클라이언트를 생성하면 <code class="language-text">const prisma = new PrismaClient()</code>같은 방법을 썼는데 서비스를 <code class="language-text">PrismaClient</code>에서 <code class="language-text">extends</code>하고 이걸 <code class="language-text">onModuleInit</code>에 <code class="language-text">implement</code>를 한다.<em><a href="https://www.howdy-mj.me/typescript/extends-and-implements/">extends? implement?</a></em> <a href="https://docs.nestjs.com/recipes/prisma">공식문서</a>에 이유가 상세히 잘 나와있지만 간단하게 설명하자면 <strong>Prisma</strong>를 <strong>DB</strong>에 빠르게 연결하기 위해 <code class="language-text">onModuleInit</code>을 사용한다. 선택사항이지만 사용하지 않을경우 <strong>Prisma</strong>는 첫 호출이 있기 전까지 <strong>DB</strong>에 연결하지 않는다. <code class="language-text">enableShutdownHooks</code>는 <a href="https://docs.nestjs.com/recipes/prisma#issues-with-enableshutdownhooks">공식문서</a>와 <a href="https://progressivecoder.com/build-a-nestjs-prisma-rest-api/">이 포스트</a>를 보면 <strong>Prisma</strong>와 <strong>NestJS</strong>가 종료메서드에 상호간섭하기 때문에 서비스에서 함수를 생성하고 <code class="language-text">main.ts</code>에서 호출해서 종료를 강제해주는 것 같다.(이부분은 완벽하게 이해를 못했다.)</p>
 <details>
-<summary>`main.ts`</summary>
+  <summary>main.ts</summary>
 <div class="gatsby-highlight" data-language="typescript"><pre class="language-typescript"><code class="language-typescript"><span class="token comment">// ~/src/main.ts</span>
 
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NestFactory <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/core"</span>
@@ -266,6 +266,7 @@ NestJS시작부터 글을 적을 생각이었지만 기억이 날아갈까봐 �
 <p>처럼 간단하게 <code class="language-text">datasource overriding</code>을 할 수 있는데 <strong>NestJS</strong>같은 <strong>Class</strong>에서는 어떻게 해야할지 모르겠는데 자료도 없어 막막했다.
 나오지도 않는 구글을 한참 뒤지다가, <strong>Prisma</strong>랑 <strong>PrismaClient</strong>라이브러리 소스를 한참뒤지다가 겨우 단서를 찾았다.
 <code class="language-text">constructor</code>에 <code class="language-text">super</code>로 선언해주면 되는 간단한 문제였다.</p>
+<blockquote>
 <details>
 <summary>코드</summary>
 <div class="gatsby-highlight" data-language="typescript"><pre class="language-typescript"><code class="language-typescript"><span class="token comment">// ~/src/prisma/prisma.service.ts</span>
@@ -287,6 +288,7 @@ NestJS시작부터 글을 적을 생각이었지만 기억이 날아갈까봐 �
 
 <span class="token comment">// async onModuleInit...</span></code></pre></div>
 </details>
+</blockquote>
 <p>방법은 찾았는데 DB URL을 어떻게 입력할지를 놓고 또 한참 씨름했다.
 <code class="language-text">.env</code>에 넣고 <code class="language-text">NODE_ENV</code>에 따라 각각 다른 주소가 들어가도록 하는데 <code class="language-text">@nestjs/config</code>를 쓰니 문제가 발생했다.
 <code class="language-text">.env</code>와 <code class="language-text">.env.development</code>, <code class="language-text">.env.test</code>에 모두 <code class="language-text">DATABASE_URL</code>이라는 같은 환경변수로 설정하고 돌렸더니 주구장창 <code class="language-text">.env</code>에 있는 주소만 입력돼서 난감했다.

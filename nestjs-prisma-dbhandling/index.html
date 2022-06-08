@@ -189,7 +189,7 @@ NestJS시작부터 글을 적을 생각이었지만 기억이 날아갈까봐 �
 <span class="token punctuation">}</span></code></pre></div>
 <p>여기서부터 당황스러웠다. 지금까지 프리즈마 클라이언트를 생성하면 <code class="language-text">const prisma = new PrismaClient()</code>같은 방법을 썼는데 서비스를 <code class="language-text">PrismaClient</code>에서 <code class="language-text">extends</code>하고 이걸 <code class="language-text">onModuleInit</code>에 <code class="language-text">implement</code>를 한다.<em><a href="https://www.howdy-mj.me/typescript/extends-and-implements/">extends? implement?</a></em> <a href="https://docs.nestjs.com/recipes/prisma">공식문서</a>에 이유가 상세히 잘 나와있지만 간단하게 설명하자면 <strong>Prisma</strong>를 <strong>DB</strong>에 빠르게 연결하기 위해 <code class="language-text">onModuleInit</code>을 사용한다. 선택사항이지만 사용하지 않을경우 <strong>Prisma</strong>는 첫 호출이 있기 전까지 <strong>DB</strong>에 연결하지 않는다. <code class="language-text">enableShutdownHooks</code>는 <a href="https://docs.nestjs.com/recipes/prisma#issues-with-enableshutdownhooks">공식문서</a>와 <a href="https://progressivecoder.com/build-a-nestjs-prisma-rest-api/">이 포스트</a>를 보면 <strong>Prisma</strong>와 <strong>NestJS</strong>가 종료메서드에 상호간섭하기 때문에 서비스에서 함수를 생성하고 <code class="language-text">main.ts</code>에서 호출해서 종료를 강제해주는 것 같다.(이부분은 완벽하게 이해를 못했다.)</p>
 <details>
-  <summary>main.ts</summary>
+<summary><code>main.ts</code></summary>
 <div class="gatsby-highlight" data-language="typescript"><pre class="language-typescript"><code class="language-typescript"><span class="token comment">// ~/src/main.ts</span>
 
 <span class="token keyword">import</span> <span class="token punctuation">{</span> NestFactory <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@nestjs/core"</span>

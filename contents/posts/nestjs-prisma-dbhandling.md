@@ -185,6 +185,7 @@ const prisma = new PrismaClient({
 
 ### 참고자료
 
-- [공식문서](https://docs.nestjs.com/recipes/prisma)
+- [NestJS 공식문서](https://docs.nestjs.com/recipes/prisma)
+- [Prisma 공식문서](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#datasources)
 - <https://progressivecoder.com/build-a-nestjs-prisma-rest-api/>
 - <https://blog.logrocket.com/how-to-use-nestjs-prisma/>

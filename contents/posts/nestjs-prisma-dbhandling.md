@@ -182,3 +182,9 @@ const prisma = new PrismaClient({
 이것저것 붙잡고 한참 씨름한 덕분에 `constructor`와 `super`에 대한 이해도와 `@nestjs/config`사용, 환경변수 적용이 익숙해졌다.
 뜯어보면 별거 아니지만 누군가는 나와 같은 문제를 겪을 수도 있을 것 같아 문제 해결하고 잊어버리기 전에 급하게 적었다.
 테스트도 결국 비용이고 대부분의 테스트코드가 `mocking`으로 적히는 걸로 보아 그게 효율적인 방법일 것 같아서 어느정도 DB에 직접 연결해서 테스트를 하다가 규모가 커지면 `mocking`해서 테스트 하는 방법으로 전환해야겠다.
+
+### 참고자료
+
+- [공식문서](https://docs.nestjs.com/recipes/prisma)
+- <https://progressivecoder.com/build-a-nestjs-prisma-rest-api/>
+- <https://blog.logrocket.com/how-to-use-nestjs-prisma/>

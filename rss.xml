@@ -1,4 +1,150 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 베짱이.dev]]></title><description><![CDATA[Welcome!]]></description><link>https://grasshopper42.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 09 Jun 2022 07:43:46 GMT</lastBuildDate><item><title><![CDATA[[Gatsby]블로그에 Google Analytics 연결]]></title><description><![CDATA[블로그 방문 통계 분석 블로그를 이왕시작한거 방문수도 체크해보기로 했다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 베짱이.dev]]></title><description><![CDATA[Welcome!]]></description><link>https://grasshopper42.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 17 Jun 2022 13:13:28 GMT</lastBuildDate><item><title><![CDATA[Tmux Setting]]></title><description><![CDATA[개발을 처음 배울때부터 WSL을 세팅해서 사용했지만 VSC를 주로 사용하다보니 기본적인 세팅만 해두고 썼지만 이번에 백엔드를 Spring boot로 전환하면서 Vim을 적극적으로 이용해보기로 했다.
+Vim…]]></description><link>https://grasshopper42.github.io/init/</link><guid isPermaLink="false">https://grasshopper42.github.io/init/</guid><content:encoded>&lt;p&gt;개발을 처음 배울때부터 WSL을 세팅해서 사용했지만 VSC를 주로 사용하다보니 기본적인 세팅만 해두고 썼지만 이번에 백엔드를 Spring boot로 전환하면서 Vim을 적극적으로 이용해보기로 했다.
+Vim을 이용하려고 세팅을 좀 만지다보니 또 세팅병이 도져서 터미널을 갈아엎었다고 볼 수 있을만큼 손을 많이 댔는데 이 과정에서 하루~이틀정도 삽질을 했던것같다.
+여러가지 플러그인과 세팅들이 있지만 가장 먼저 Tmux세팅부터 남긴다.&lt;/p&gt;
+&lt;h2&gt;Tmux?&lt;/h2&gt;
+&lt;p&gt;Tmux는 &lt;strong&gt;Terminal multiplexer&lt;/strong&gt;의 일종인데 터미널 화면을 분할해서 사용할 수 있다.
+세션에서 서버를 실행중이라면 종료하지 않고 최소화와 같은 기능으로도 사용할 수 있지만 나는 화면분할 위주로 사용하고 있다.&lt;/p&gt;
+&lt;h2&gt;용어&lt;/h2&gt;
+&lt;p&gt;본격적인 사용에 앞서 사용과 설정에서의 이해를 위해 Tmux의 실행단위들을 알아보자  &lt;/p&gt;
+&lt;h3&gt;Pane&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Pane&lt;/strong&gt;은 Tmux에서 가장 작은 실행단위로 Tmux에서 화면을 분할한다는 것은 이 Pane을 생성한다는 뜻이다.
+가로나 세로로 분할할 수 있고 특정 커맨드를 입력하면 Pane의 갯수에 맞춰 추천하는 화면 구성을 돌아가며 전환해준다.&lt;/p&gt;
+&lt;h3&gt;Window&lt;/h3&gt;
+&lt;p&gt;Pane이 한개 이상 모여 &lt;strong&gt;Window&lt;/strong&gt;를 구성한다.
+Window는 VSC나 브라우저의 탭으로 이해하면 되는데 동일한 화면에 나타나지는 않지만 실행중인 세션에서 옮겨가며 사용할 수 있다.&lt;/p&gt;
+&lt;h3&gt;Session&lt;/h3&gt;
+&lt;p&gt;Window가 하나 이상 모이면 &lt;strong&gt;Session&lt;/strong&gt;이 구성된다.
+&lt;strong&gt;Session&lt;/strong&gt;은 tmux에서 관리하는 가장 큰 실행단위로 tmux를 실행하면 가장 먼저 생성되는 요소이다.
+VSC에서의 창 하나로 이해하면 될 것 같다.
+&lt;code class=&quot;language-text&quot;&gt;detach&lt;/code&gt;로 작업을 유지한채 최소화 시키고 &lt;code class=&quot;language-text&quot;&gt;attach&lt;/code&gt;를 통해 다시 열 수 있다.&lt;/p&gt;
+&lt;h2&gt;설치&lt;/h2&gt;
+&lt;p&gt;Ubuntu를 기준으로 설치는 아주 쉽다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; tmux&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;설치가 다 됐으면 &lt;code class=&quot;language-text&quot;&gt;tmux&lt;/code&gt;를 입력해 실행할 수 있다.&lt;/p&gt;
+&lt;h2&gt;설정&lt;/h2&gt;
+&lt;p&gt;아래는 내가 사용하고 있는 .tmux.conf이다.
+root디렉토리(Ubuntu라면 &lt;code class=&quot;language-text&quot;&gt;~/&lt;/code&gt;)에 &lt;code class=&quot;language-text&quot;&gt;.tmux.conf&lt;/code&gt;파일을 만들어주면 된다.&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;.tmux.conf&lt;/summary&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;conf&quot;&gt;&lt;pre class=&quot;language-conf&quot;&gt;&lt;code class=&quot;language-conf&quot;&gt;# rmap prefix from &amp;#39;C-b&amp;#39; to &amp;#39;C-a&amp;#39;
+unbind C-b
+unbind C-Space
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# split panes using | and -
+bind | split-window -h
+bind - split-window -v
+unbind &amp;#39;&amp;quot;&amp;#39;
+unbind %
+
+# reload config file
+bind r source-file ~/.tmux.conf\; display-message &amp;quot;Config reloaded.&amp;quot;
+
+# switch panes using Alt-arrow without prefix
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
+# vim setting
+is_vim=&amp;quot;ps-o state= -o comm= -t &amp;#39;#{pane_tty}&amp;#39; \
+    | grep -iqE &amp;#39;^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$&amp;#39;&amp;quot;
+
+bind-key -n C-h  if-shell  &amp;quot;$is_vim&amp;quot;  &amp;quot;send-keys C-h&amp;quot;  &amp;quot;select-pane -L&amp;quot;
+bind-key -n C-j   if-shell  &amp;quot;$is_vim&amp;quot;  &amp;quot;send-keys C-j&amp;quot;   &amp;quot;select-pane -D&amp;quot;
+bind-key -n C-k  if-shell  &amp;quot;$is_vim&amp;quot;  &amp;quot;send-keys C-k&amp;quot;  &amp;quot;select-pane -U&amp;quot;
+bind-key -n C-l   if-shell  &amp;quot;$is_vim&amp;quot;  &amp;quot;send-keys C-l&amp;quot;   &amp;quot;select-pane -R&amp;quot;
+bind-key -n C-\   if-shell  &amp;quot;$is_vim&amp;quot;  &amp;quot;send-keys C-\\&amp;quot;  &amp;quot;select-pane -l&amp;quot; 
+
+# Enable mouse control (clickable windows, panes, resizable panes)
+set -g mouse on
+
+# don&amp;#39;t rename windows automatically
+set-option -g allow-rename off
+
+# tmux
+set-option -sg escape-time 10
+set-option -g default-terminal &amp;#39;tmux-256color&amp;#39;
+set-option -ga terminal-overrides &amp;#39;,*256col*:Tc&amp;#39;
+set-option -g focus-events on
+
+######################################
+###########Design change##############
+######################################
+
+## loud or quiet?
+set-option -g visual-activity off
+set-option -g visual-bell off
+set-option -g visual-silence off
+set-window-option -g monitor-activity on
+set-option -g bell-action none
+
+# modes
+setw -g clock-mode-colour colour5
+setw -g mode-style bold
+setw -g mode-style fg=colour1
+setw -g mode-style bg=colour18
+
+# panes
+set -g pane-border-style bg=colour0
+set -g pane-border-style fg=colour255
+set -g pane-active-border-style bg=colour242
+set -g pane-active-border-style fg=colour83
+
+# statusbar
+set -g status-position bottom
+set -g status-justify left
+set -g status-bg colour18
+set -g status-fg colour137
+set -g window-status-style dim
+set -g status-left &amp;quot;#{?client_prefix,Ω,ω}&amp;quot;
+set -g status-right &amp;quot;#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage} | #[fg=colour233,bg=colour19,bold] %d/%m #[fg=colour233,bg=colour8,bold] %H:%M:%S &amp;quot;
+set -g status-right-length 120
+set -g status-left-length 20
+
+setw -g window-status-current-style fg=colour1
+setw -g window-status-current-style bg=colour18
+setw -g window-status-current-style bold
+setw -g window-status-current-format &amp;#39; #I#[fg=colour249]:#[fg=colour255]#W#[fg=colour248]#F &amp;#39;
+setw -g window-status-style fg=colour9
+setw -g window-status-style bg=colour18
+setw -g window-status-style none
+setw -g window-status-format &amp;#39; #I#[fgcolour237]:#[fg=colour250]#W#[fg=colour244]#F &amp;#39;e
+
+# List of plugins
+set -g @plugin &amp;#39;tmux-plugins/tpm&amp;#39;
+set -g @plugin &amp;#39;tmux-plugins/tmux-sensible&amp;#39;
+set -g @plugin &amp;#39;tmux-plugins/tmux-cpu&amp;#39;
+set -g @plugin &amp;#39;egel/tmux-gruvbox&amp;#39;
+
+set -g @tmux-gruvbox &amp;#39;dark&amp;#39;
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run &amp;#39;~/.tmux/plugins/tpm/tpm&amp;#39;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;p&gt;100줄 가까이 되는 길이라 줄였다. 순서대로 살펴보자면, 가장 먼저 &lt;code class=&quot;language-text&quot;&gt;prefix&lt;/code&gt;키를 기본 설정돼있는 &lt;code class=&quot;language-text&quot;&gt;Ctrl&lt;/code&gt;+&lt;code class=&quot;language-text&quot;&gt;b&lt;/code&gt;에서 &lt;code class=&quot;language-text&quot;&gt;Ctrl&lt;/code&gt;+&lt;code class=&quot;language-text&quot;&gt;a&lt;/code&gt;로 바꿔줬다.
+기본 &lt;code class=&quot;language-text&quot;&gt;Ctrl&lt;/code&gt;키 위치에서도 &lt;code class=&quot;language-text&quot;&gt;b&lt;/code&gt;보다 &lt;code class=&quot;language-text&quot;&gt;a&lt;/code&gt;가 누르기 편하기도 하고 나는 &lt;code class=&quot;language-text&quot;&gt;Capslock&lt;/code&gt;버튼과 &lt;code class=&quot;language-text&quot;&gt;Ctrl&lt;/code&gt;버튼을 바꿔줬기 때문에 바로 옆에 붙어있어서 더 편했다.
+그리고 수평분할을 &lt;code class=&quot;language-text&quot;&gt;prefix&lt;/code&gt;+&lt;code class=&quot;language-text&quot;&gt;|&lt;/code&gt;, 수직분할을 &lt;code class=&quot;language-text&quot;&gt;prefix&lt;/code&gt;+&lt;code class=&quot;language-text&quot;&gt;-&lt;/code&gt;로 바꿔줬다.&lt;/p&gt;
+&lt;p&gt;tmux는 &lt;code class=&quot;language-text&quot;&gt;truecolor&lt;/code&gt;를 지원하는데 이것 때문에 계속 오류가 떠서 애를 좀 먹었다.
+중간에 &lt;em&gt;tmux&lt;/em&gt; 주석 처리 된 부분이 문제의 부분인데 여기저기 찾아보면서 만지작거리다가 이 설정으로 해결됐다.
+.zshrc에서 아래의 설정도 해 줘야한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;zshrc&quot;&gt;&lt;pre class=&quot;language-zshrc&quot;&gt;&lt;code class=&quot;language-zshrc&quot;&gt;export TERM=tmux-256color&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그 아래 디자인 부분은 tmux 상태바와 기타 다른부분들 디자인인데 잘 모르겠어서 다른 분의 configuration을 그대로 사용했다.
+상태바는 맨 아래 부분에서 볼 수 있듯 플러그인을 설치해서 사용중인데 플러그인별로 스타일을 설정하거나 고정돼있어서 딱히 필요없는 듯 하다.
+tmux 플러그인은 &lt;a href=&quot;https://github.com/tmux-plugins/tpm&quot;&gt;깃허브&lt;/a&gt;에서 플러그인 매니저를 설치한 후에 사용할 수 있다.&lt;/p&gt;
+&lt;p&gt;처음 설정을 했다면 저장 후 tmux를 실행하던가 이미 실행중이라면 터미널에 아래 명령어를 입력해서 reload시켜주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;tmux &lt;span class=&quot;token builtin class-name&quot;&gt;source&lt;/span&gt; ~/.tmux.conf&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;처음 &lt;code class=&quot;language-text&quot;&gt;.tmux.conf&lt;/code&gt;가 적용되고 나서 위 conf처럼 단축키를 지정해줬다면 &lt;code class=&quot;language-text&quot;&gt;&amp;lt;prefix&gt;&lt;/code&gt;+&lt;code class=&quot;language-text&quot;&gt;r&lt;/code&gt;키를 이용해 간편하게 reloading할 수 있다.&lt;/p&gt;
+&lt;h2&gt;참고자료&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://hbase.tistory.com/200&quot;&gt;https://hbase.tistory.com/200&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://velog.io/@piopiop/Linux-tmux%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4%EB%B3%B4%EC%9E%90&quot;&gt;https://velog.io/@piopiop/Linux-tmux%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4%EB%B3%B4%EC%9E%90&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://velog.io/@ur-luella/tmux-%EC%82%AC%EC%9A%A9%EB%B2%95&quot;&gt;https://velog.io/@ur-luella/tmux-%EC%82%AC%EC%9A%A9%EB%B2%95&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://data-newbie.tistory.com/226&quot;&gt;https://data-newbie.tistory.com/226&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/&quot;&gt;https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[Gatsby]블로그에 Google Analytics 연결]]></title><description><![CDATA[블로그 방문 통계 분석 블로그를 이왕시작한거 방문수도 체크해보기로 했다.
 여기저기 기웃거리면서 따라해봤는데 github page…]]></description><link>https://grasshopper42.github.io/gatsby-analytics/</link><guid isPermaLink="false">https://grasshopper42.github.io/gatsby-analytics/</guid><pubDate>Thu, 09 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;블로그 방문 통계 분석&lt;/h2&gt;
 &lt;p&gt;블로그를 이왕시작한거 방문수도 체크해보기로 했다.
 여기저기 기웃거리면서 따라해봤는데 github page 배포 딜레이때문인지 측정이 안돼서 당황했다.
@@ -182,10 +328,14 @@ NestJS시작부터 글을 적을 생각이었지만 기억이 날아갈까봐 �
 &lt;span class=&quot;token decorator&quot;&gt;&lt;span class=&quot;token at operator&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Injectable&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;PrismaService&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;PrismaClient&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;onModuleInit&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token function&quot;&gt;constructor&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; url &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+      process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;NODE_ENV&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;test&quot;&lt;/span&gt;
+        &lt;span class=&quot;token operator&quot;&gt;?&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;TEST_DATABASE_URL&lt;/span&gt;
+        &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;DATABASE_URL&lt;/span&gt;
     &lt;span class=&quot;token keyword&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
       datasources&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
         db&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-          url&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;TEST_DATABASE_URL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
       &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;

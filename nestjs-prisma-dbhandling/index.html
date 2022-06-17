@@ -301,10 +301,14 @@ NestJS시작부터 글을 적을 생각이었지만 기억이 날아갈까봐 �
 <span class="token decorator"><span class="token at operator">@</span><span class="token function">Injectable</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">PrismaService</span> <span class="token keyword">extends</span> <span class="token class-name">PrismaClient</span> <span class="token keyword">implements</span> <span class="token class-name">onModuleInit</span> <span class="token punctuation">{</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> url <span class="token operator">=</span>
+      process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">===</span> <span class="token string">"test"</span>
+        <span class="token operator">?</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST_DATABASE_URL</span>
+        <span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">DATABASE_URL</span>
     <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
       datasources<span class="token operator">:</span> <span class="token punctuation">{</span>
         db<span class="token operator">:</span> <span class="token punctuation">{</span>
-          url<span class="token operator">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">TEST_DATABASE_URL</span><span class="token punctuation">,</span>
+          url<span class="token punctuation">,</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
       <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>

@@ -1,8 +1,8 @@
 ---
 title: "Tmux Setting"
 description: ".tmux.conf"
-data: 2022-06-17
-update: 2022-06-03
+date: 2022-06-17
+update: 2022-06-20
 tags:
   - tmux
   - vim
@@ -20,7 +20,7 @@ Tmux는 **Terminal multiplexer**의 일종인데 터미널 화면을 분할해�
 
 ## 용어
 
-본격적인 사용에 앞서 사용과 설정에서의 이해를 위해 Tmux의 실행단위들을 알아보자  
+본격적인 사용에 앞서 사용과 설정에서의 이해를 위해 Tmux의 실행단위들을 알아보자
 
 ### Pane
 
@@ -87,7 +87,7 @@ bind-key -n C-h  if-shell  "$is_vim"  "send-keys C-h"  "select-pane -L"
 bind-key -n C-j   if-shell  "$is_vim"  "send-keys C-j"   "select-pane -D"
 bind-key -n C-k  if-shell  "$is_vim"  "send-keys C-k"  "select-pane -U"
 bind-key -n C-l   if-shell  "$is_vim"  "send-keys C-l"   "select-pane -R"
-bind-key -n C-\   if-shell  "$is_vim"  "send-keys C-\\"  "select-pane -l" 
+bind-key -n C-\   if-shell  "$is_vim"  "send-keys C-\\"  "select-pane -l"
 
 # Enable mouse control (clickable windows, panes, resizable panes)
 set -g mouse on
